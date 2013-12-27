@@ -9,30 +9,40 @@ def build_image_dependencies(source_code)
   end
 end
 
-desc "Generate assets"
-task :assets do
+desc "Clean assets"
+task :clean do
+  rm_rf 'app'
+end
 
-  Rake.rake_output_message "Copying javascripts"
-  target_dir = "app/assets/javascripts/timeliner_rails"
-  puts FileUtils.cp(Dir.glob("timeliner/js/timeliner.js"), target_dir)
+namespace :generate do
+  desc "Generate assets"
+  task :assets do
 
-  Rake.rake_output_message "Copying images"
-  target_dir = "app/assets/images/timeliner_rails"
-  puts FileUtils.cp(Dir.glob("timeliner/images/*"), target_dir)
+    Rake.rake_output_message "Copying javascripts"
+    target_dir = "app/assets/javascripts/timeliner"
+    mkdir_p target_dir
+    puts FileUtils.cp(Dir.glob("timeliner/js/timeliner.js"), target_dir)
 
-  Rake.rake_output_message "Generating css files"
-  target_dir = "app/assets/stylesheets/timeliner_rails"
+    Rake.rake_output_message "Copying images"
+    target_dir = "app/assets/images/timeliner"
+    mkdir_p target_dir
+    puts FileUtils.cp(Dir.glob("timeliner/images/*"), target_dir)
 
-  Dir.glob("timeliner/css/*").each do |path|
-    basename = File.basename(path)
-    source_code = File.read(path)
+    Rake.rake_output_message "Generating css files"
+    target_dir = "app/assets/stylesheets/timeliner"
+    mkdir_p target_dir
 
-    source_code = build_image_dependencies(source_code) + "\n" + source_code unless build_image_dependencies(source_code).empty?
-    source_code.gsub!(/url\(.*"?images\/([-_.a-zA-Z0-9]+)"?\)/, "url(<%= image_path(\"#{path}\1\") %>)")
+    Dir.glob("timeliner/css/*").each do |path|
+      basename = File.basename(path)
+      source_code = File.read(path)
 
-    puts "#{target_dir}/#{basename}.erb"
-    File.open("#{target_dir}/#{basename}.erb", "w") do |out|
-      out.write(source_code)
+      source_code = build_image_dependencies(source_code) + "\n" + source_code unless build_image_dependencies(source_code).empty?
+      source_code.gsub!(/url\(.*"?images\/([-_.a-zA-Z0-9]+)"?\)/, "url(<%= image_path(\"#{path}\1\") %>)")
+
+      puts "#{target_dir}/#{basename}.erb"
+      File.open("#{target_dir}/#{basename}.erb", "w") do |out|
+        out.write(source_code)
+      end
     end
   end
 end
