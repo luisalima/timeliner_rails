@@ -21,6 +21,8 @@ namespace :generate do
     Rake.rake_output_message "Copying javascripts"
     target_dir = "app/assets/javascripts/timeliner"
     mkdir_p target_dir
+    # create sprockets manifest file
+    puts FileUtils.touch("app/assets/javascripts/timeliner/index.js")
     puts FileUtils.cp(Dir.glob("timeliner/js/timeliner.js"), target_dir)
 
     Rake.rake_output_message "Copying images"
@@ -31,6 +33,8 @@ namespace :generate do
     Rake.rake_output_message "Generating css files"
     target_dir = "app/assets/stylesheets/timeliner"
     mkdir_p target_dir
+    # create sprockets manifest file
+    puts FileUtils.touch("app/assets/stylesheets/timeliner/index.css")
 
     Dir.glob("timeliner/css/*").each do |path|
       basename = File.basename(path)
