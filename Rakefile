@@ -5,7 +5,7 @@ require "bundler/gem_tasks"
 def build_image_dependencies(source_code)
   image_dependencies = Set.new source_code.scan(/url\(.*"?images\/([-_.a-zA-Z0-9]+)"?\)/).map(&:first)
   code = image_dependencies.inject("") do |acc, img|
-    acc += "//= depend_on_asset \"timeliner/images/#{img}\"\n"
+    acc += "//= depend_on_asset \"timeliner/#{img}\"\n"
   end
 end
 
@@ -37,7 +37,7 @@ namespace :generate do
       source_code = File.read(path)
 
       source_code = build_image_dependencies(source_code) + "\n" + source_code unless build_image_dependencies(source_code).empty?
-      source_code.gsub!(/url\(.*"?images\/([-_.a-zA-Z0-9]+)"?\)/, "url(<%= image_path(\"#{path}\1\") %>)")
+      source_code.gsub!(/url\(.*"?images\/([-_.a-zA-Z0-9]+)"?\)/, "url(<%= image_path(\"timeliner/\\1\") %>)")
 
       puts "#{target_dir}/#{basename}.erb"
       File.open("#{target_dir}/#{basename}.erb", "w") do |out|
