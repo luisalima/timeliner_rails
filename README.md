@@ -1,6 +1,6 @@
 # TimelinerRails
 
-TODO: Write a gem description
+timeliner_rails packages the []() jquery plugin (javascripts, stylesheets and images) for use with the rails 3.1+ asset pipeline.
 
 ## Installation
 
@@ -8,17 +8,21 @@ Add this line to your application's Gemfile:
 
     gem 'timeliner_rails'
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install timeliner_rails
 
 ## Usage
 
-TODO: Write usage instructions here
+Add this line to your `application.js`:
+
+```javascript
+//= require timeliner.timeliner
+```
+
+Add these lines to your `application.scss` || `application.css`:
+
+```css
+*= require timeliner/screen
+*= require timeliner/responsive
+```
 
 ## Contributing
 
