@@ -1,13 +1,13 @@
 # TimelinerRails
 
-timeliner_rails packages the []() jquery plugin (javascripts, stylesheets and images) for use with the rails 3.1+ asset pipeline.
+timeliner_rails packages the [timeliner](https://github.com/technotarek/timeliner) jquery plugin
+ (javascripts, stylesheets and images) for use with the rails 3.1+ asset pipeline.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
     gem 'timeliner_rails'
-
 
 ## Usage
 
